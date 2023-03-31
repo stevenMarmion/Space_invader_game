@@ -6,5 +6,13 @@ public class ChainePositionnee{
         y=b; 
         c=d;
     }
-    
+    public int getPosX() {
+        return this.x;
+    }
+    public int getPosY() {
+        return this.y;
+    }
+    public String getDessin() {
+        return this.c;
+    }
 }

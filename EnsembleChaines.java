@@ -2,7 +2,7 @@ import java.util.ArrayList;
 public class EnsembleChaines {
     ArrayList<ChainePositionnee> chaines;
     public EnsembleChaines(){
-        chaines= new ArrayList<ChainePositionnee>(); 
+        ArrayList<ChainePositionnee> chaines= new ArrayList<>(); 
     }
     public void ajouteChaine(int x, int y, String c) {
         chaines.add(new ChainePositionnee(x,y,c));
