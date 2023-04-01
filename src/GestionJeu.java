@@ -8,6 +8,8 @@ public class GestionJeu {
     private Projectile p;
     private Score s;
     private ArrayList<Alien> listeA;
+    private ArrayList<Balle> listB;
+    private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
         this.listeE = new ArrayList<>();
         EnsembleChaines e= new EnsembleChaines();
@@ -29,6 +31,7 @@ public class GestionJeu {
         listeA.add(new Alien(20.0, this.getHauteur()-10));
         listeA.add(new Alien(30.0, this.getHauteur()-10));
         listeA.add(new Alien(40.0, this.getHauteur()-10));
+        this.listB = new ArrayList<>();
     }
     public int getHauteur() {
         return 60;
@@ -55,6 +58,28 @@ public class GestionJeu {
         return e;
     }
     public void jouerUnTour() {
+        for (Alien a: this.listeA) {
+            a.evolue();
+        }
         this.s.ajoute(1);
+        this.removeAlienTouche();
+        this.removeBalle();
+        
+    }
+    public void testTouche() {
+        for (Balle b: this.listB) {
+            for (Alien a: this.listeA) {
+                if (a.contient(b.getPosX(), b.getPosY())) {
+                    this.listB.add(b);
+                    this.listeAlienTouche.add(a);
+                }
+            }
+        }
+    }
+    public void removeBalle() {
+        this.listB.clear();
+    }
+    public void removeAlienTouche() {
+        this.listeAlienTouche.clear();
     }
 }
