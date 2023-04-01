@@ -12,22 +12,25 @@ public class GestionJeu {
     private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
         this.listeE = new ArrayList<>();
-        EnsembleChaines e= new EnsembleChaines();
-        listeE.add(e);
+        EnsembleChaines eTest = new EnsembleChaines();
+        listeE.add(eTest);
         ChainePositionnee cP = new ChainePositionnee(0,30,"@@");
-        e.ajouteChaine(0,30,"@@");
+        eTest.ajouteChaine(0,30,"@@");
         this.posX=cP.getPosX();
         this.v = new Vaisseau(0);
+        EnsembleChaines eVaisseau = this.v.getEnsembleChaines();
+        this.listeE.add(eVaisseau);
         this.p = new Projectile(0.0, 0.0);
+        EnsembleChaines eProjectile 
         this.s = new Score();
         this.listeA=new ArrayList<Alien>();
         listeA.add(new Alien(0.0, this.getHauteur()));
-        listeA.add(new Alien(1.0, this.getHauteur()));
+        listeA.add(new Alien(10.0, this.getHauteur()));
         listeA.add(new Alien(20.0, this.getHauteur()));
         listeA.add(new Alien(30.0, this.getHauteur()));
         listeA.add(new Alien(40.0, this.getHauteur()));
         listeA.add(new Alien(0.0, this.getHauteur()-10));
-        listeA.add(new Alien(1.0, this.getHauteur()-10));
+        listeA.add(new Alien(10.0, this.getHauteur()-10));
         listeA.add(new Alien(20.0, this.getHauteur()-10));
         listeA.add(new Alien(30.0, this.getHauteur()-10));
         listeA.add(new Alien(40.0, this.getHauteur()-10));
@@ -48,7 +51,7 @@ public class GestionJeu {
         this.v.deplace(-1);
     }
     public void toucheEspace() {
-        System.out.println("Appui sur la touche espace");
+        this.p.evolue();
     }
     public EnsembleChaines getChaines() {
         EnsembleChaines e = new EnsembleChaines();
@@ -61,6 +64,7 @@ public class GestionJeu {
         for (Alien a: this.listeA) {
             a.evolue();
         }
+        this.p.evolue();
         this.s.ajoute(1);
         this.removeAlienTouche();
         this.removeBalle();
