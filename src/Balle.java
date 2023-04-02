@@ -5,6 +5,11 @@ public class Balle {
         this.posX=x;
         this.posY=y;
     }
+    public EnsembleChaines getEnsembleChaines() {
+        EnsembleChaines ec= new EnsembleChaines();
+        ec.ajouteChaine((int)this.posX, (int)this.posY, "|");
+        return ec;
+    }
     public int getPosX() {
         return this.posX;
     }

@@ -12,17 +12,18 @@ public class GestionJeu {
     private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
         this.listeE = new ArrayList<>();
-        EnsembleChaines eTest = new EnsembleChaines();
-        listeE.add(eTest);
-        ChainePositionnee cP = new ChainePositionnee(0,30,"@@");
-        eTest.ajouteChaine(0,30,"@@");
-        this.posX=cP.getPosX();
+
         this.v = new Vaisseau(0);
         EnsembleChaines eVaisseau = this.v.getEnsembleChaines();
         this.listeE.add(eVaisseau);
+        this.posX=(int)this.v.getPositionCanon();
+
         this.p = new Projectile(0.0, 0.0);
-        EnsembleChaines eProjectile 
+        EnsembleChaines eProjectile = this.p.getEnsembleChaines();
+        this.listeE.add(eProjectile);
+
         this.s = new Score();
+
         this.listeA=new ArrayList<Alien>();
         listeA.add(new Alien(0.0, this.getHauteur()));
         listeA.add(new Alien(10.0, this.getHauteur()));
@@ -34,7 +35,9 @@ public class GestionJeu {
         listeA.add(new Alien(20.0, this.getHauteur()-10));
         listeA.add(new Alien(30.0, this.getHauteur()-10));
         listeA.add(new Alien(40.0, this.getHauteur()-10));
+
         this.listB = new ArrayList<>();
+        listB.add(new Balle(this.posX, 4));
     }
     public int getHauteur() {
         return 60;

@@ -8,7 +8,7 @@ public class Vaisseau {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine(1,2,"####");
+        ec.ajouteChaine(1,3,"####");
         ec.ajouteChaine(5,2,"°°");
         ec.ajouteChaine(1,1,"uu");
         ec.ajouteChaine(0,0,"--|||--");
