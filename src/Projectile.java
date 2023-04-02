@@ -13,4 +13,10 @@ public class Projectile {
     public void evolue() {
         this.positionY+=0.2;
     }
-}
+    public double getPosX() {
+        return this.positionX;
+    }
+    public double getPosY() {
+        return this.positionY;
+    }
+} 

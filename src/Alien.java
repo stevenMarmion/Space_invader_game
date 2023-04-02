@@ -1,9 +1,11 @@
 public class Alien {
     private double posX;
     private int posY;
+    private boolean estTouche;
     public Alien(double x, int y) {
         this.posX=x;
         this.posY=y;
+        this.estTouche=false;
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
@@ -28,5 +30,11 @@ public class Alien {
         if (posx >this.posX && posy >= this.posY-4 && posy <=this.posY && posx <= this.posX + this.posY+11)
             return true;
         return false;
+    }
+    public void estTouche() {
+        this.estTouche=true;
+    }
+    public boolean getEstTouche() {
+        return this.estTouche;
     }
 }

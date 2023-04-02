@@ -8,7 +8,7 @@ public class GestionJeu {
     private Projectile p;
     private Score s;
     private ArrayList<Alien> listeA;
-    private ArrayList<Balle> listB;
+    private ArrayList<Projectile> listeP;
     private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
         this.listeE = new ArrayList<>();
@@ -18,7 +18,7 @@ public class GestionJeu {
         this.listeE.add(eVaisseau);
         this.posX=(int)this.v.getPositionCanon();
 
-        this.p = new Projectile(0.0, 0.0);
+        this.p = new Projectile(this.posX, 4.0);
         EnsembleChaines eProjectile = this.p.getEnsembleChaines();
         this.listeE.add(eProjectile);
 
@@ -36,8 +36,7 @@ public class GestionJeu {
         listeA.add(new Alien(30.0, this.getHauteur()-10));
         listeA.add(new Alien(40.0, this.getHauteur()-10));
 
-        this.listB = new ArrayList<>();
-        listB.add(new Balle(this.posX, 4));
+        this.listeP = new ArrayList<>();
     }
     public int getHauteur() {
         return 60;
@@ -66,27 +65,29 @@ public class GestionJeu {
     public void jouerUnTour() {
         for (Alien a: this.listeA) {
             a.evolue();
+            if (a.getEstTouche()==true) {
+                this.s.ajoute(1);
+                this.removeAlienTouche(a);
+                this.removeProjectile(p);
+            }
         }
         this.p.evolue();
-        this.s.ajoute(1);
-        this.removeAlienTouche();
-        this.removeBalle();
-        
     }
     public void testTouche() {
-        for (Balle b: this.listB) {
+        for (Projectile p: this.listeP) {
             for (Alien a: this.listeA) {
-                if (a.contient(b.getPosX(), b.getPosY())) {
-                    this.listB.add(b);
+                if (a.contient((int)p.getPosX(), (int)p.getPosY())) {
+                    this.listeP.add(p);
                     this.listeAlienTouche.add(a);
+                    a.estTouche();
                 }
             }
         }
     }
-    public void removeBalle() {
-        this.listB.clear();
+    public void removeProjectile(Projectile p) {
+        this.listeP.remove(p);
     }
-    public void removeAlienTouche() {
-        this.listeAlienTouche.clear();
+    public void removeAlienTouche(Alien a) {
+        this.listeAlienTouche.remove(a);
     }
 }
