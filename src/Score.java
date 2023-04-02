@@ -6,4 +6,7 @@ public class Score {
     public void ajoute(int i) {
         this.score+=1;
     }
+    public int getScore() {
+        return this.score;
+    }
 }

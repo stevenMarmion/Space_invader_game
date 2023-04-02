@@ -23,7 +23,7 @@ public class GestionJeu {
         this.listeE.add(eProjectile);
 
         this.s = new Score();
-
+        
         this.listeA=new ArrayList<Alien>();
         listeA.add(new Alien(0.0, this.getHauteur()));
         listeA.add(new Alien(10.0, this.getHauteur()));
