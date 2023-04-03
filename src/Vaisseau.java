@@ -8,10 +8,13 @@ public class Vaisseau {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine(1,3,"####");
-        ec.ajouteChaine(5,2,"°°");
-        ec.ajouteChaine(1,1,"uu");
-        ec.ajouteChaine(0,0,"--|||--");
+        ec.ajouteChaine((int)this.posX,6,"░░░░░░░░░░░░░░░░░");
+        ec.ajouteChaine((int)this.posX,5,"░░░░░░░░▄░░░░░░░░");
+        ec.ajouteChaine((int)this.posX,4,"░░░░░░░███░░░░░░░");
+        ec.ajouteChaine((int)this.posX,3,"░░▄███████████▄░░");
+        ec.ajouteChaine((int)this.posX,2,"░░█████████████░░");
+        ec.ajouteChaine((int)this.posX,1,"░░█████████████░░");
+        ec.ajouteChaine((int)this.posX,0,"░░░░░░░░░░░░░░░░░");
         return ec;
     }
     public double getPositionCanon() {

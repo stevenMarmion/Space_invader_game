@@ -9,11 +9,13 @@ public class Alien {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine((int)this.posX,this.posY,"   ',,'   ");
-        ec.ajouteChaine((int)this.posX,this.posY-1," --°--°-- ");
-        ec.ajouteChaine((int)this.posX,this.posY-2,"|--------|");
-        ec.ajouteChaine((int)this.posX,this.posY-3,"| ------ |");
-        ec.ajouteChaine((int)this.posX,this.posY-4,"    --    ");
+        ec.ajouteChaine((int)this.posX,this.posY+6,"░░░░░░░░░░░░░░░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+5,"░░░░░▀▄░░░▄▀░░░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+4,"░░░░▄█▀███▀█▄░░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+3,"░░░█▀███████▀█░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+2,"░░░█░█▀▀▀▀▀█░█░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+1,"░░░░░░▀▀░▀▀░░░░░░");
+        ec.ajouteChaine((int)this.posX,this.posY,"░░░░░░░░░░░░░░░░░");
         return ec;
     }
     public void evolue() {

@@ -11,7 +11,7 @@ public class GestionJeu {
     private ArrayList<Projectile> listeP;
     private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
-        this.listeE = new ArrayList<>();
+        this.listeE = new ArrayList<EnsembleChaines>();
 
         this.v = new Vaisseau(0);
         EnsembleChaines eVaisseau = this.v.getEnsembleChaines();
@@ -36,7 +36,9 @@ public class GestionJeu {
         listeA.add(new Alien(30.0, this.getHauteur()-10));
         listeA.add(new Alien(40.0, this.getHauteur()-10));
 
-        this.listeP = new ArrayList<>();
+        this.listeP = new ArrayList<Projectile>();
+
+        this.listeAlienTouche = new ArrayList<Alien>();
     }
     public int getHauteur() {
         return 60;
