@@ -15,47 +15,50 @@ public class GestionJeu {
 
         this.v = new Vaisseau(0);
         EnsembleChaines eVaisseau = this.v.getEnsembleChaines();
-        this.listeE.add(eVaisseau);
+        listeE.add(eVaisseau);
         this.posX=(int)this.v.getPositionCanon();
-
-        this.p = new Projectile(this.posX, 4.0);
-        EnsembleChaines eProjectile = this.p.getEnsembleChaines();
-        this.listeE.add(eProjectile);
 
         this.s = new Score();
         
         this.listeA=new ArrayList<Alien>();
-        listeA.add(new Alien(0.0, this.getHauteur()));
-        listeA.add(new Alien(10.0, this.getHauteur()));
-        listeA.add(new Alien(20.0, this.getHauteur()));
-        listeA.add(new Alien(30.0, this.getHauteur()));
-        listeA.add(new Alien(40.0, this.getHauteur()));
         listeA.add(new Alien(0.0, this.getHauteur()-10));
-        listeA.add(new Alien(10.0, this.getHauteur()-10));
-        listeA.add(new Alien(20.0, this.getHauteur()-10));
+        listeA.add(new Alien(15.0, this.getHauteur()-10));
         listeA.add(new Alien(30.0, this.getHauteur()-10));
-        listeA.add(new Alien(40.0, this.getHauteur()-10));
+        listeA.add(new Alien(45.0, this.getHauteur()-10));
+        listeA.add(new Alien(60.0, this.getHauteur()-10));
+        listeA.add(new Alien(0.0, this.getHauteur()-20));
+        listeA.add(new Alien(15.0, this.getHauteur()-20));
+        listeA.add(new Alien(30.0, this.getHauteur()-20));
+        listeA.add(new Alien(45.0, this.getHauteur()-20));
+        listeA.add(new Alien(60.0, this.getHauteur()-20));
+        for (Alien a: listeA) {
+            EnsembleChaines eALien = a.getEnsembleChaines();
+            listeE.add(eALien);
+        }
 
         this.listeP = new ArrayList<Projectile>();
 
         this.listeAlienTouche = new ArrayList<Alien>();
     }
     public int getHauteur() {
-        return 60;
+        return 80;
     }
     public int getLargeur() {
-        return 100;
+        return 180;
     }
     public void toucheDroite() {
         this.posX+=1;
         this.v.deplace(1.0);
+        listeE.add(this.v.getEnsembleChaines());
     }
     public void toucheGauche() {
         this.posX-=1;
         this.v.deplace(-1);
     }
     public void toucheEspace() {
-        this.p.evolue();
+        Projectile p=new Projectile(this.posX, 6.0);
+        listeP.add(p);
+        listeE.add(p.getEnsembleChaines());
     }
     public EnsembleChaines getChaines() {
         EnsembleChaines e = new EnsembleChaines();
@@ -73,7 +76,9 @@ public class GestionJeu {
                 this.removeProjectile(p);
             }
         }
-        this.p.evolue();
+        for (Projectile p: this.listeP) {
+            p.evolue();
+        }
     }
     public void testTouche() {
         for (Projectile p: this.listeP) {

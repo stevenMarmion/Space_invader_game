@@ -18,6 +18,6 @@ public class Vaisseau {
         return ec;
     }
     public double getPositionCanon() {
-        return this.posX;
+        return this.posX+8;
     }
 }
