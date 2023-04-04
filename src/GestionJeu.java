@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GestionJeu {
-    private List<EnsembleChaines> listeE;
     private int posX;
     private Vaisseau v;
     private Projectile p;
@@ -11,37 +10,30 @@ public class GestionJeu {
     private ArrayList<Projectile> listeP;
     private ArrayList<Alien> listeAlienTouche;
     public GestionJeu() {
-        this.listeE = new ArrayList<EnsembleChaines>();
-
         this.v = new Vaisseau(0);
-        EnsembleChaines eVaisseau = this.v.getEnsembleChaines();
-        listeE.add(eVaisseau);
+        
         this.posX=(int)this.v.getPositionCanon();
 
         this.s = new Score();
         
-        this.listeA=new ArrayList<Alien>();
-        listeA.add(new Alien(0.0, this.getHauteur()-10));
-        listeA.add(new Alien(15.0, this.getHauteur()-10));
-        listeA.add(new Alien(30.0, this.getHauteur()-10));
-        listeA.add(new Alien(45.0, this.getHauteur()-10));
-        listeA.add(new Alien(60.0, this.getHauteur()-10));
-        listeA.add(new Alien(0.0, this.getHauteur()-20));
-        listeA.add(new Alien(15.0, this.getHauteur()-20));
-        listeA.add(new Alien(30.0, this.getHauteur()-20));
-        listeA.add(new Alien(45.0, this.getHauteur()-20));
-        listeA.add(new Alien(60.0, this.getHauteur()-20));
-        for (Alien a: listeA) {
-            EnsembleChaines eALien = a.getEnsembleChaines();
-            listeE.add(eALien);
-        }
+        this.listeA=new ArrayList<>();
+        this.listeA.add(new Alien(0.0, this.getHauteur()-10));
+        this.listeA.add(new Alien(15.0, this.getHauteur()-10));
+        this.listeA.add(new Alien(30.0, this.getHauteur()-10));
+        this.listeA.add(new Alien(45.0, this.getHauteur()-10));
+        this.listeA.add(new Alien(60.0, this.getHauteur()-10));
+        this.listeA.add(new Alien(0.0, this.getHauteur()-20));
+        this.listeA.add(new Alien(15.0, this.getHauteur()-20));
+        this.listeA.add(new Alien(30.0, this.getHauteur()-20));
+        this.listeA.add(new Alien(45.0, this.getHauteur()-20));
+        this.listeA.add(new Alien(60.0, this.getHauteur()-20));
 
         this.listeP = new ArrayList<Projectile>();
 
         this.listeAlienTouche = new ArrayList<Alien>();
     }
     public int getHauteur() {
-        return 80;
+        return 85;
     }
     public int getLargeur() {
         return 180;
@@ -49,7 +41,6 @@ public class GestionJeu {
     public void toucheDroite() {
         this.posX+=1;
         this.v.deplace(1.0);
-        listeE.add(this.v.getEnsembleChaines());
     }
     public void toucheGauche() {
         this.posX-=1;
@@ -58,13 +49,16 @@ public class GestionJeu {
     public void toucheEspace() {
         Projectile p=new Projectile(this.posX, 6.0);
         listeP.add(p);
-        listeE.add(p.getEnsembleChaines());
     }
     public EnsembleChaines getChaines() {
         EnsembleChaines e = new EnsembleChaines();
-        for (EnsembleChaines eC: this.listeE) {
-            e.union(eC);
+        for (Projectile p: this.listeP) {
+            e.union(p.getEnsembleChaines());
         }
+        for (Alien a: this.listeA) {
+            e.union(a.getEnsembleChaines());
+        }
+        e.union(this.v.getEnsembleChaines());
         return e;
     }
     public void jouerUnTour() {
