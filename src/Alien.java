@@ -7,30 +7,38 @@ public class Alien {
         this.posY=y;
         this.estTouche=false;
     }
-    public void evolue() {
-        for (int i=0;i<100;++i) {
-            this.posX+=0.1;
+    public double getX() {
+        return this.posX;
+    }
+    public int getY() {
+        return this.posY;
+    }
+    public void evolue(boolean descendre, boolean droite, boolean gauche) {
+        if (descendre==true && droite==false && gauche==false) {
+            this.posY-=1;
         }
-        this.posY-=1;
-        for (int i=0;i<100;++i) {
+        if (descendre==false && droite==false && gauche==true) {
             this.posX-=0.1;
         }
-        this.posY-=1;
+        if(descendre==false && droite==true && gauche==false) {
+            this.posX+=0.1;
+        }
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine((int)this.posX,this.posY+6,"░░░░░░░░░░░░░░░░░");
-        ec.ajouteChaine((int)this.posX,this.posY+5,"░░░░░▀▄░░░▄▀░░░░░");
-        ec.ajouteChaine((int)this.posX,this.posY+4,"░░░░▄█▀███▀█▄░░░░");
-        ec.ajouteChaine((int)this.posX,this.posY+3,"░░░█▀███████▀█░░░");
-        ec.ajouteChaine((int)this.posX,this.posY+2,"░░░█░█▀▀▀▀▀█░█░░░");
-        ec.ajouteChaine((int)this.posX,this.posY+1,"░░░░░░▀▀░▀▀░░░░░░");
-        ec.ajouteChaine((int)this.posX,this.posY,"░░░░░░░░░░░░░░░░░");
+        ec.ajouteChaine((int)this.posX,this.posY+6,"                 ");
+        ec.ajouteChaine((int)this.posX,this.posY+5,"     ▀▄   ▄▀     ");
+        ec.ajouteChaine((int)this.posX,this.posY+4,"    ▄█▀███▀█▄    ");
+        ec.ajouteChaine((int)this.posX,this.posY+3,"   █▀███████▀█   ");
+        ec.ajouteChaine((int)this.posX,this.posY+2,"   █ █▀▀▀▀▀█ █   ");
+        ec.ajouteChaine((int)this.posX,this.posY+1,"      ▀▀ ▀▀      ");
+        ec.ajouteChaine((int)this.posX,this.posY+0,"                 ");
         return ec;
     }
     public boolean contient(int posx, int posy){
-        if (posx >this.posX && posy >= this.posY-4 && posy <=this.posY && posx <= this.posX + this.posY+11)
+        if (posx >= this.posX && posx <= this.posX+17 && posy >= this.posY) {
             return true;
+        }
         return false;
     }
     public void estTouche() {

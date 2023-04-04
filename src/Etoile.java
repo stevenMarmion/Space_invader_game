@@ -15,10 +15,13 @@ public class Etoile {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine((int)this.posX, (int)this.posY, "|");
+        ec.ajouteChaine((int)this.posX, (int)this.posY, "+");
         return ec;
     }
     public void evolue() {
         this.posY+=0.1;
+    }
+    public void remetXZero() {
+        this.posY=0.0;
     }
 }

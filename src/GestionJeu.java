@@ -8,40 +8,50 @@ public class GestionJeu {
     private Score s;
     private ArrayList<Alien> listeA;
     private ArrayList<Projectile> listeP;
+    private ArrayList<Projectile> listeProjectileToucheAlien;
     private ArrayList<Alien> listeAlienTouche;
-    /* Bonus */ private ArrayList<Etoile> listeEtoile;
+    private ArrayList<Etoile> listeEtoile; //Bonus 
+    private Amorce a; // Bonus 
+    private Planete planete; // Bonus
     public GestionJeu() {
         this.v = new Vaisseau(0);
         
         this.posX=(int)this.v.getPositionCanon();
 
-        this.s = new Score();
+        this.s = new Score(0, this.getHauteur()-1);
         
         this.listeA=new ArrayList<>();
-        this.listeA.add(new Alien(0.0, this.getHauteur()-10));
-        this.listeA.add(new Alien(15.0, this.getHauteur()-10));
-        this.listeA.add(new Alien(30.0, this.getHauteur()-10));
-        this.listeA.add(new Alien(45.0, this.getHauteur()-10));
-        this.listeA.add(new Alien(60.0, this.getHauteur()-10));
-        this.listeA.add(new Alien(0.0, this.getHauteur()-20));
-        this.listeA.add(new Alien(15.0, this.getHauteur()-20));
-        this.listeA.add(new Alien(30.0, this.getHauteur()-20));
-        this.listeA.add(new Alien(45.0, this.getHauteur()-20));
-        this.listeA.add(new Alien(60.0, this.getHauteur()-20));
+        for (double i=0.0; i<this.getLargeur()-50; i+=17.0) {
+            this.listeA.add(new Alien(i, this.getHauteur()-10));
+            this.listeA.add(new Alien(i, this.getHauteur()-17));
+        }
 
         this.listeP = new ArrayList<Projectile>();
 
+        this.listeProjectileToucheAlien =new ArrayList<>();
         this.listeAlienTouche = new ArrayList<Alien>();
 
         /* Bonus */
         this.listeEtoile = new ArrayList<>();
-        this.listeEtoile.add(new Etoile(2.0, 0.0));
+        for (double l=0.0; l<this.getHauteur(); l+=20.0) {
+            for (double i=0.0; i<this.getLargeur(); i+=20.0) {
+                listeEtoile.add(new Etoile(i, l));
+            }
+        }
+        for (double l=10.0; l<this.getHauteur(); l+=20.0) {
+            for (double i=10.0; i<this.getLargeur(); i+=20.0) {
+                listeEtoile.add(new Etoile(i, l));
+            }
+        }
+        this.a = new Amorce(this.getLargeur()/2-16, this.getHauteur()/2);
+        this.planete = new Planete(80.0, -60.0);
+        /* Fin bonus */
     }
     public int getHauteur() {
-        return 85;
+        return 90;
     }
     public int getLargeur() {
-        return 180;
+        return 120;
     }
     public void toucheDroite() {
         this.posX+=1;
@@ -68,18 +78,23 @@ public class GestionJeu {
         for (Etoile etoile: this.listeEtoile) {
             e.union(etoile.getEnsembleChaines());
         }
+        e.union(this.a.getEnsembleChaines());
         /* Fin bonus */
-
+        e.union(this.planete.getEnsembleChaines());
         e.union(this.v.getEnsembleChaines());
+        e.union(this.s.getEnsembleChaines());
         return e;
     }
+
+
     public void jouerUnTour() {
         for (Alien a: this.listeA) {
-            a.evolue();
+            a.evolue(false, false, false);
+            this.testTouche();
             if (a.getEstTouche()==true) {
                 this.s.ajoute(1);
-                this.removeAlienTouche(a);
-                this.removeProjectile(p);
+                this.listeP.remove(p);
+                this.listeA.remove(a);
             }
         }
         for (Projectile p: this.listeP) {
@@ -88,24 +103,23 @@ public class GestionJeu {
         /* Bonus */
         for (Etoile etoile: this.listeEtoile) {
             etoile.evolue();
+            if (etoile.getY()>=this.getHauteur()) {
+                etoile.remetXZero();
+            }
         }
+        this.planete.evolue();
+        this.a.evolue();
         /* Fin bonus */
     }
     public void testTouche() {
         for (Projectile p: this.listeP) {
             for (Alien a: this.listeA) {
                 if (a.contient((int)p.getPosX(), (int)p.getPosY())) {
-                    this.listeP.add(p);
+                    this.listeProjectileToucheAlien.add(p);
                     this.listeAlienTouche.add(a);
                     a.estTouche();
                 }
             }
         }
-    }
-    public void removeProjectile(Projectile p) {
-        this.listeP.remove(p);
-    }
-    public void removeAlienTouche(Alien a) {
-        this.listeAlienTouche.remove(a);
     }
 }

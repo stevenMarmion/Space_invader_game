@@ -14,8 +14,9 @@ public class EnsembleChaines {
     }
     public boolean contient(int posx, int posy){
         for(ChainePositionnee c: this.chaines){
-            if (c.getPosX() <= posx && c.getPosY() == posy && posx < c.getPosX() + c.getDessin().length())
+            if (posx >=c.getPosX() && posx <=c.getPosX()+c.getDessin().length() && posy >= c.getPosY()) {
                 return true;
+            }
         }
         return false;
     }
