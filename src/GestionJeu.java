@@ -12,7 +12,8 @@ public class GestionJeu {
     private ArrayList<Alien> listeAlienTouche;
     private ArrayList<Etoile> listeEtoile; //Bonus 
     private Amorce a; // Bonus 
-    private Planete planete; // Bonus
+    private ArrayList<Asteroide> asteroide; // Bonus
+    private PlaneteLambda planete; // Bonus 
     public GestionJeu() {
         this.v = new Vaisseau(0);
         
@@ -43,8 +44,12 @@ public class GestionJeu {
                 listeEtoile.add(new Etoile(i, l));
             }
         }
-        this.a = new Amorce(this.getLargeur()/2-16, this.getHauteur()/2);
-        this.planete = new Planete(80.0, -60.0);
+        this.a = new Amorce(this.getLargeur()/*/2-16*/, this.getHauteur()/2);
+        this.asteroide = new ArrayList<>();
+        this.asteroide.add(new Asteroide(80.0, -50.0));
+        this.asteroide.add(new Asteroide(30.0, -150.0));
+        this.asteroide.add(new Asteroide(50.0, -250.0));
+        this.planete = new PlaneteLambda(20.0, 30.0);
         /* Fin bonus */
     }
     public int getHauteur() {
@@ -78,9 +83,12 @@ public class GestionJeu {
         for (Etoile etoile: this.listeEtoile) {
             e.union(etoile.getEnsembleChaines());
         }
+        for (Asteroide asteroide: this.asteroide) {
+            e.union(this.asteroide.getEnsembleChaines());
+        }
         e.union(this.a.getEnsembleChaines());
-        /* Fin bonus */
         e.union(this.planete.getEnsembleChaines());
+        /* Fin bonus */
         e.union(this.v.getEnsembleChaines());
         e.union(this.s.getEnsembleChaines());
         return e;
@@ -107,8 +115,11 @@ public class GestionJeu {
                 etoile.remetXZero();
             }
         }
-        this.planete.evolue();
+        for (Asteroide asteroide: this.asteroide) {
+            asteroide.evolue();
+        }
         this.a.evolue();
+        this.planete.evolue();
         /* Fin bonus */
     }
     public void testTouche() {
