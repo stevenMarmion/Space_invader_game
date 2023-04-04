@@ -9,6 +9,7 @@ public class GestionJeu {
     private ArrayList<Alien> listeA;
     private ArrayList<Projectile> listeP;
     private ArrayList<Alien> listeAlienTouche;
+    /* Bonus */ private ArrayList<Etoile> listeEtoile;
     public GestionJeu() {
         this.v = new Vaisseau(0);
         
@@ -31,6 +32,10 @@ public class GestionJeu {
         this.listeP = new ArrayList<Projectile>();
 
         this.listeAlienTouche = new ArrayList<Alien>();
+
+        /* Bonus */
+        this.listeEtoile = new ArrayList<>();
+        this.listeEtoile.add(new Etoile(2.0, 0.0));
     }
     public int getHauteur() {
         return 85;
@@ -58,6 +63,13 @@ public class GestionJeu {
         for (Alien a: this.listeA) {
             e.union(a.getEnsembleChaines());
         }
+
+        /* Bonus */
+        for (Etoile etoile: this.listeEtoile) {
+            e.union(etoile.getEnsembleChaines());
+        }
+        /* Fin bonus */
+
         e.union(this.v.getEnsembleChaines());
         return e;
     }
@@ -73,6 +85,11 @@ public class GestionJeu {
         for (Projectile p: this.listeP) {
             p.evolue();
         }
+        /* Bonus */
+        for (Etoile etoile: this.listeEtoile) {
+            etoile.evolue();
+        }
+        /* Fin bonus */
     }
     public void testTouche() {
         for (Projectile p: this.listeP) {
