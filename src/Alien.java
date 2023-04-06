@@ -2,10 +2,12 @@ public class Alien {
     private double posX;
     private int posY;
     private boolean estTouche;
+    private boolean changeDessin;
     public Alien(double x, int y) {
         this.posX=x;
         this.posY=y;
         this.estTouche=false;
+        this.changeDessin=false;
     }
     public double getX() {
         return this.posX;
@@ -26,13 +28,26 @@ public class Alien {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine((int)this.posX,this.posY+6,"                 ");
-        ec.ajouteChaine((int)this.posX,this.posY+5,"     ▀▄   ▄▀     ");
-        ec.ajouteChaine((int)this.posX,this.posY+4,"    ▄█▀███▀█▄    ");
-        ec.ajouteChaine((int)this.posX,this.posY+3,"   █▀███████▀█   ");
-        ec.ajouteChaine((int)this.posX,this.posY+2,"   █ █▀▀▀▀▀█ █   ");
-        ec.ajouteChaine((int)this.posX,this.posY+1,"      ▀▀ ▀▀      ");
-        ec.ajouteChaine((int)this.posX,this.posY+0,"                 ");
+        if (this.changeDessin==false) {
+            ec.ajouteChaine((int)this.posX,this.posY+6,"                 ");
+            ec.ajouteChaine((int)this.posX,this.posY+5,"     ▀▄   ▄▀     ");
+            ec.ajouteChaine((int)this.posX,this.posY+4,"    ▄█▀███▀█▄    ");
+            ec.ajouteChaine((int)this.posX,this.posY+3,"   █▀███████▀█   ");
+            ec.ajouteChaine((int)this.posX,this.posY+2,"   █ █▀▀▀▀▀█ █   ");
+            ec.ajouteChaine((int)this.posX,this.posY+1,"      ▀▀ ▀▀      ");
+            ec.ajouteChaine((int)this.posX,this.posY+0,"                 ");
+            return ec;
+        }
+        if (this.changeDessin==true) {
+            ec.ajouteChaine((int)this.posX,this.posY+6,"                 ");
+            ec.ajouteChaine((int)this.posX,this.posY+5,"      ▀▄   ▄▀    ");
+            ec.ajouteChaine((int)this.posX,this.posY+4,"    ▄█▀███▀█▄    ");
+            ec.ajouteChaine((int)this.posX,this.posY+3,"   █▀███████▀█   ");
+            ec.ajouteChaine((int)this.posX,this.posY+2,"   █ █▀▀▀▀▀█ █   ");
+            ec.ajouteChaine((int)this.posX,this.posY+1,"    ▀▀     ▀▀    ");
+            ec.ajouteChaine((int)this.posX,this.posY+0,"                 ");
+            return ec;
+        }
         return ec;
     }
     public boolean contient(int posx, int posy){
@@ -46,5 +61,13 @@ public class Alien {
     }
     public boolean getEstTouche() {
         return this.estTouche;
+    }
+    public void changeDessin() {
+        if (this.changeDessin==false) {
+            this.changeDessin=true;
+        }   
+        else if (this.changeDessin==true) {
+            this.changeDessin=false;
+        }
     }
 }

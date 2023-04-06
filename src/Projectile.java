@@ -7,7 +7,7 @@ public class Projectile {
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
-        ec.ajouteChaine((int)this.positionX, (int)this.positionY, "|");
+        ec.ajouteChaine((int)this.positionX, (int)this.positionY, "●");
         return ec;
     }
     public void evolue() {

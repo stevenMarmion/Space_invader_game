@@ -22,6 +22,6 @@ public class Amorce {
         return ec;
     }
     public void evolue() {
-        this.x-=0.3;
+        this.x-=0.6;
     }
 }

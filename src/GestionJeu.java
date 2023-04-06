@@ -50,18 +50,18 @@ public class GestionJeu {
         this.asteroide.add(new Asteroide(80.0, -50.0));
         this.asteroide.add(new Asteroide(30.0, -150.0));
         this.asteroide.add(new Asteroide(50.0, -450.0));
-        this.planete = new PlaneteLambda(20.0, 30.0);
+        this.planete = new PlaneteLambda(-20.0, -30.0);
         /* Fin bonus */
     }
     public int getHauteur() {
-        return 90;
+        return 60;
     }
     public int getLargeur() {
-        return 120;
+        return 100;
     }
     public void toucheDroite() {
         this.posX+=1;
-        this.v.deplace(1.0);
+        this.v.deplace(1);
     }
     public void toucheGauche() {
         this.posX-=1;
@@ -97,8 +97,9 @@ public class GestionJeu {
 
 
     public void jouerUnTour() {
+        boolean goDroite=true;
         for (Alien a: this.listeA) {
-            for (int i=0; i<this.getLargeur(); ++i) {
+            if (a.getX()>=0 && a.getX()+17<this.getLargeur() && goDroite==true) {
                 a.evolue(false, true, false);
                 this.testTouche();
                 if (a.getEstTouche()==true) {
@@ -107,26 +108,20 @@ public class GestionJeu {
                     this.listeA.remove(a);
                 }
             }
-            for (int i=0; i<2; ++i) {
-                a.evolue(true, false, false);
+            //a.changeDessin();
+            if (a.getX()+17>=this.getLargeur() && goDroite==true) {
+                goDroite=false;
+            }            
+            if (/*a.getX()>=0 && a.getX()+17<=this.getLargeur() && */goDroite==false) {
+                a.evolue(false, false, true);
+                this.testTouche();
                 if (a.getEstTouche()==true) {
                     this.s.ajoute(1);
                     this.listeP.remove(p);
                     this.listeA.remove(a);
                 }
             }
-            for (int i=0; i<this.getLargeur(); ++i) {
-                a.evolue(false, false, true);
-                if (a.getEstTouche()==true) {
-                    this.s.ajoute(1);
-                    this.listeP.remove(p);
-                    this.listeA.remove(a);
-                }      
-            }
         }
-            // else if (this.listeA.get(this.listeA.size()-1).getX()+17>=this.getLargeur()) {
-            // if (this.listeA.get(0).getX()<=0)
-            //}
         for (Projectile p: this.listeP) {
             p.evolue();
         }

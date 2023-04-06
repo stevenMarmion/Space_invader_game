@@ -29,6 +29,6 @@ public class Asteroide implements Planete {
     }
     @Override
     public void evolue() {
-        this.y+=0.5;
+        this.y+=0.4;
     }
 }
