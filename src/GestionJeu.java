@@ -94,32 +94,15 @@ public class GestionJeu {
         e.union(this.s.getEnsembleChaines());
         return e;
     }
-
-
     public void jouerUnTour() {
         boolean goDroite=true;
         for (Alien a: this.listeA) {
-            if (a.getX()>=0 && a.getX()+17<this.getLargeur() && goDroite==true) {
-                a.evolue(false, true, false);
-                this.testTouche();
-                if (a.getEstTouche()==true) {
-                    this.s.ajoute(1);
-                    this.listeP.remove(p);
-                    this.listeA.remove(a);
-                }
-            }
-            //a.changeDessin();
-            if (a.getX()+17>=this.getLargeur() && goDroite==true) {
-                goDroite=false;
-            }            
-            if (/*a.getX()>=0 && a.getX()+17<=this.getLargeur() && */goDroite==false) {
-                a.evolue(false, false, true);
-                this.testTouche();
-                if (a.getEstTouche()==true) {
-                    this.s.ajoute(1);
-                    this.listeP.remove(p);
-                    this.listeA.remove(a);
-                }
+            a.evolue();
+            this.testTouche();
+            if (a.getEstTouche()==true) {
+                this.s.ajoute(1);
+                this.listeP.remove(p);
+                this.listeA.remove(a);
             }
         }
         for (Projectile p: this.listeP) {

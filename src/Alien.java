@@ -15,16 +15,17 @@ public class Alien {
     public int getY() {
         return this.posY;
     }
-    public void evolue(boolean descendre, boolean droite, boolean gauche) {
-        if (descendre==true && droite==false && gauche==false) {
-            this.posY-=1;
-        }
-        if (descendre==false && droite==false && gauche==true) {
-            this.posX-=0.1;
-        }
-        if(descendre==false && droite==true && gauche==false) {
+    public void evolue() {
+        for (int i=0; i<100; ++i) {
             this.posX+=0.1;
+            this.changeDessin();
         }
+        this.posY-=1;
+        for (int i=0; i<100; ++i) {
+            this.posX-=0.1;
+            this.changeDessin();
+        }
+        this.posY-=1;
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
