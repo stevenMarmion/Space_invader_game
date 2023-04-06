@@ -10,6 +10,7 @@ public class GestionJeu {
     private ArrayList<Projectile> listeP;
     private ArrayList<Projectile> listeProjectileToucheAlien;
     private ArrayList<Alien> listeAlienTouche;
+    
     private ArrayList<Etoile> listeEtoile; //Bonus 
     private Amorce a; // Bonus 
     private ArrayList<Asteroide> asteroide; // Bonus
@@ -44,11 +45,11 @@ public class GestionJeu {
                 listeEtoile.add(new Etoile(i, l));
             }
         }
-        this.a = new Amorce(this.getLargeur()/*/2-16*/, this.getHauteur()/2);
+        this.a = new Amorce(this.getLargeur(), this.getHauteur()/2);
         this.asteroide = new ArrayList<>();
         this.asteroide.add(new Asteroide(80.0, -50.0));
         this.asteroide.add(new Asteroide(30.0, -150.0));
-        this.asteroide.add(new Asteroide(50.0, -250.0));
+        this.asteroide.add(new Asteroide(50.0, -450.0));
         this.planete = new PlaneteLambda(20.0, 30.0);
         /* Fin bonus */
     }
@@ -84,7 +85,7 @@ public class GestionJeu {
             e.union(etoile.getEnsembleChaines());
         }
         for (Asteroide asteroide: this.asteroide) {
-            e.union(this.asteroide.getEnsembleChaines());
+            e.union(asteroide.getEnsembleChaines());
         }
         e.union(this.a.getEnsembleChaines());
         e.union(this.planete.getEnsembleChaines());
@@ -97,14 +98,35 @@ public class GestionJeu {
 
     public void jouerUnTour() {
         for (Alien a: this.listeA) {
-            a.evolue(false, false, false);
-            this.testTouche();
-            if (a.getEstTouche()==true) {
-                this.s.ajoute(1);
-                this.listeP.remove(p);
-                this.listeA.remove(a);
+            for (int i=0; i<this.getLargeur(); ++i) {
+                a.evolue(false, true, false);
+                this.testTouche();
+                if (a.getEstTouche()==true) {
+                    this.s.ajoute(1);
+                    this.listeP.remove(p);
+                    this.listeA.remove(a);
+                }
+            }
+            for (int i=0; i<2; ++i) {
+                a.evolue(true, false, false);
+                if (a.getEstTouche()==true) {
+                    this.s.ajoute(1);
+                    this.listeP.remove(p);
+                    this.listeA.remove(a);
+                }
+            }
+            for (int i=0; i<this.getLargeur(); ++i) {
+                a.evolue(false, false, true);
+                if (a.getEstTouche()==true) {
+                    this.s.ajoute(1);
+                    this.listeP.remove(p);
+                    this.listeA.remove(a);
+                }      
             }
         }
+            // else if (this.listeA.get(this.listeA.size()-1).getX()+17>=this.getLargeur()) {
+            // if (this.listeA.get(0).getX()<=0)
+            //}
         for (Projectile p: this.listeP) {
             p.evolue();
         }

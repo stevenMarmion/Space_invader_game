@@ -36,7 +36,7 @@ public class Alien {
         return ec;
     }
     public boolean contient(int posx, int posy){
-        if (posx >= this.posX && posx <= this.posX+17 && posy >= this.posY) {
+        if (posx >= this.posX && posx <= this.posX+17 && posy >= this.posY && posy <= this.posY+6) {
             return true;
         }
         return false;
