@@ -95,9 +95,16 @@ public class GestionJeu {
         return e;
     }
     public void jouerUnTour() {
-        boolean goDroite=true;
         for (Alien a: this.listeA) {
-            a.evolue();
+            double pas=0.1;
+            if (a.getX()+17>=this.getLargeur()) {
+                pas*=-1;
+                a.evolue(0.0, -1.0);
+                a.evolue(pas, 0.0);
+            }
+            else {
+                a.evolue(pas, 0.0);
+            }
             this.testTouche();
             if (a.getEstTouche()==true) {
                 this.s.ajoute(1);

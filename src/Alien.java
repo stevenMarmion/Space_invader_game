@@ -15,17 +15,9 @@ public class Alien {
     public int getY() {
         return this.posY;
     }
-    public void evolue() {
-        for (int i=0; i<100; ++i) {
-            this.posX+=0.1;
-            this.changeDessin();
-        }
-        this.posY-=1;
-        for (int i=0; i<100; ++i) {
-            this.posX-=0.1;
-            this.changeDessin();
-        }
-        this.posY-=1;
+    public void evolue(double x, double y) {
+        this.posX+=x;
+        this.posY+=y;
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();
