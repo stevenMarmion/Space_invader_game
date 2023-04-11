@@ -5,7 +5,7 @@ public class Niveau {
     public Niveau(int x, int y) {
         this.x=x;
         this.y=y;
-        this.niveau=0;
+        this.niveau=1;
     }
     public void ajouteNiveau(int i) {
         this.niveau+=1;
