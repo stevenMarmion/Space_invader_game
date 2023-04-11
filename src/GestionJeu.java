@@ -1,4 +1,4 @@
-//javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls *.java
+// javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls *.java
 // java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls Executable
 
 import java.util.ArrayList;
