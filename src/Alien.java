@@ -17,6 +17,9 @@ public class Alien {
     public int getY() {
         return this.posY;
     }
+    public int getCpt() {
+        return this.cpt;
+    }
     public void evolue(double pasX) {
         if (pasX==0.1) {
             if (this.cpt < 500) {
@@ -65,6 +68,24 @@ public class Alien {
                 this.posX-=pasX;
             }
             else if (this.cpt==250) {
+                this.posY-=1;
+            }
+            else {
+                this.cpt=0;
+            }
+            this.cpt+=1;
+        }
+        if (pasX==0.8) {
+            if (this.cpt < 72) {
+                this.posX+=pasX;
+            }
+            else if (this.cpt==72) {
+                this.posY-=1;
+            }
+            else if (this.cpt < 125) {
+                this.posX-=pasX;
+            }
+            else if (this.cpt==125) {
                 this.posY-=1;
             }
             else {

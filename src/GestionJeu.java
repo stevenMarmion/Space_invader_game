@@ -1,4 +1,6 @@
-import java.util.List;
+//javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls *.java
+// java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls Executable
+
 import java.util.ArrayList;
 
 public class GestionJeu {
@@ -15,6 +17,7 @@ public class GestionJeu {
     private Amorce a; // Bonus 
     private ArrayList<Asteroide> asteroide; // Bonus
     private PlaneteLambda planete; // Bonus 
+    private Niveau niveau; // Bonus 
     public GestionJeu() {
         this.v = new Vaisseau(0);
         
@@ -51,6 +54,7 @@ public class GestionJeu {
         this.asteroide.add(new Asteroide(30.0, -150.0));
         this.asteroide.add(new Asteroide(50.0, -450.0));
         this.planete = new PlaneteLambda(-20.0, -30.0);
+        this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1);
         /* Fin bonus */
     }
     public int getHauteur() {
@@ -83,6 +87,9 @@ public class GestionJeu {
         for (Alien a: this.listeA) {
             e.union(a.getEnsembleChaines());
         }
+        e.union(this.v.getEnsembleChaines());
+        e.union(this.s.getEnsembleChaines());
+        e.union(this.niveau.getEnsembleChaines());
 
         /* Bonus */
         for (Etoile etoile: this.listeEtoile) {
@@ -94,24 +101,29 @@ public class GestionJeu {
         e.union(this.a.getEnsembleChaines());
         e.union(this.planete.getEnsembleChaines());
         /* Fin bonus */
-        e.union(this.v.getEnsembleChaines());
-        e.union(this.s.getEnsembleChaines());
-        this.s.ajoute(1);
         return e;
     }
     public void jouerUnTour() {
         for (Alien a: this.listeA) {
             double pasX=0.0;
-            if (this.s.getScore()>4000) {
-                pasX=0.4;
-            }
-            else if (this.s.getScore()>2000 && this.s.getScore()<4000) {
-                pasX=0.2;
-            }
-            else {
+            if (this.niveau.getNiveau()==1) {
                 pasX=0.1;
             }
+            else if (this.niveau.getNiveau()==2) {
+                pasX=0.2;
+            }
+            else if (this.niveau.getNiveau()==3) {
+                pasX=0.4;
+            }
+            else if (this.niveau.getNiveau()==4) {
+                pasX=0.8;
+            }
             a.evolue(pasX);
+            if (this.s.getScore()%10==0) { 
+                // regarde si le score est un multiple de 10
+                // si c'est le cas, on change le dessin de l'alien 
+                a.changeDessin();
+            }
             this.testTouche();
             if (a.getEstTouche()==true) {
                 this.listeP.remove(p);
@@ -121,7 +133,13 @@ public class GestionJeu {
         for (Projectile p: this.listeP) {
             p.evolue();
         }
+        this.s.ajoute(1);
+
         /* Bonus */
+        if (this.listeA.isEmpty()==true) {
+            this.remetDesAliens();
+            this.niveau.ajouteNiveau(1);
+        }
         for (Etoile etoile: this.listeEtoile) {
             etoile.evolue();
             if (etoile.getY()>=this.getHauteur()) {
@@ -134,6 +152,7 @@ public class GestionJeu {
         this.a.evolue();
         this.planete.evolue();
         /* Fin bonus */
+
     }
     public void testTouche() {
         for (Projectile p: this.listeP) {
@@ -146,7 +165,7 @@ public class GestionJeu {
             }
         }
         for (Alien alien: this.listeA) {
-            if (alien.contient((int)this.v.getX(), 0) || alien.getY()<0) {
+            if (alien.contient((int)this.v.getX(), 0) || alien.getY()<=0) {
                 this.perdu();
             }
         }
@@ -159,5 +178,12 @@ public class GestionJeu {
         this.listeEtoile.clear(); 
         this.asteroide.clear();
         this.planete=null;
+    }
+    public void remetDesAliens() {
+        /** Si tout les aliens de la première vague sont morts, on en envoie une deuxième. Ce qui implique l'on doit en remettre sur la map **/
+        for (double i=0.0; i<this.getLargeur()-50; i+=17.0) {
+            this.listeA.add(new Alien(i, this.getHauteur()-10));
+            this.listeA.add(new Alien(i, this.getHauteur()-17));
+        }
     }
 }
