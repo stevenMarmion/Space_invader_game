@@ -3,11 +3,13 @@ public class Alien {
     private int posY;
     private boolean estTouche;
     private boolean changeDessin;
+    private int cpt;
     public Alien(double x, int y) {
         this.posX=x;
         this.posY=y;
         this.estTouche=false;
         this.changeDessin=false;
+        this.cpt=0;
     }
     public double getX() {
         return this.posX;
@@ -15,9 +17,62 @@ public class Alien {
     public int getY() {
         return this.posY;
     }
-    public void evolue(double x, double y) {
-        this.posX+=x;
-        this.posY+=y;
+    public void evolue(double pasX) {
+        if (pasX==0.1) {
+            if (this.cpt < 500) {
+                this.posX+=pasX;
+            }
+            else if (this.cpt==500) {
+                this.posY-=1;
+            }
+            else if (this.cpt < 1000) {
+                this.posX-=pasX;
+            }
+            else if (this.cpt==1000) {
+                this.posY-=1;
+            }
+            else {
+                this.cpt=0;
+            }
+            this.cpt+=1;
+        }
+        if (pasX==0.2) {
+            if (this.cpt < 250) {
+                this.posX+=pasX;
+            }
+            else if (this.cpt==250) {
+                this.posY-=1;
+            }
+            else if (this.cpt < 500) {
+                this.posX-=pasX;
+            }
+            else if (this.cpt==500) {
+                this.posY-=1;
+            }
+            else {
+                this.cpt=0;
+            }
+            this.cpt+=1;
+        }
+        if (pasX==0.4) {
+            if (this.cpt < 125) {
+                this.posX+=pasX;
+            }
+            else if (this.cpt==125) {
+                this.posY-=1;
+            }
+            else if (this.cpt < 250) {
+                this.posX-=pasX;
+            }
+            else if (this.cpt==250) {
+                this.posY-=1;
+            }
+            else {
+                this.cpt=0;
+            }
+            this.cpt+=1;
+        }
+        
     }
     public EnsembleChaines getEnsembleChaines() {
         EnsembleChaines ec= new EnsembleChaines();

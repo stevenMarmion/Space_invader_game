@@ -60,12 +60,16 @@ public class GestionJeu {
         return 100;
     }
     public void toucheDroite() {
-        this.posX+=1;
-        this.v.deplace(1);
+        if (this.v.getX()+17<this.getLargeur()) {
+            this.posX+=1;
+            this.v.deplace(1);
+        }
     }
     public void toucheGauche() {
-        this.posX-=1;
-        this.v.deplace(-1);
+        if (this.v.getX()>0) {
+            this.posX-=1;
+            this.v.deplace(-1);
+        }
     }
     public void toucheEspace() {
         Projectile p=new Projectile(this.posX, 6.0);
@@ -92,22 +96,24 @@ public class GestionJeu {
         /* Fin bonus */
         e.union(this.v.getEnsembleChaines());
         e.union(this.s.getEnsembleChaines());
+        this.s.ajoute(1);
         return e;
     }
     public void jouerUnTour() {
         for (Alien a: this.listeA) {
-            double pas=0.1;
-            if (a.getX()+17>=this.getLargeur()) {
-                pas*=-1;
-                a.evolue(0.0, -1.0);
-                a.evolue(pas, 0.0);
+            double pasX=0.0;
+            if (this.s.getScore()>4000) {
+                pasX=0.4;
+            }
+            else if (this.s.getScore()>2000 && this.s.getScore()<4000) {
+                pasX=0.2;
             }
             else {
-                a.evolue(pas, 0.0);
+                pasX=0.1;
             }
+            a.evolue(pasX);
             this.testTouche();
             if (a.getEstTouche()==true) {
-                this.s.ajoute(1);
                 this.listeP.remove(p);
                 this.listeA.remove(a);
             }
@@ -139,5 +145,19 @@ public class GestionJeu {
                 }
             }
         }
+        for (Alien alien: this.listeA) {
+            if (alien.contient((int)this.v.getX(), 0) || alien.getY()<0) {
+                this.perdu();
+            }
+        }
+    }
+    public void perdu() {
+        this.listeP.clear();
+        this.listeA.clear();
+        this.listeProjectileToucheAlien.clear();
+        this.listeAlienTouche.clear();
+        this.listeEtoile.clear(); 
+        this.asteroide.clear();
+        this.planete=null;
     }
 }

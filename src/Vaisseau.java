@@ -20,4 +20,7 @@ public class Vaisseau {
     public double getPositionCanon() {
         return this.posX+8;
     }
+    public double getX() {
+        return this.posX;
+    }
 }
