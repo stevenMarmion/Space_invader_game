@@ -58,7 +58,7 @@ public class GestionJeu {
         /* Fin bonus */
     }
     public int getHauteur() {
-        return 30;
+        return 60;
     }
     public int getLargeur() {
         return 100;
