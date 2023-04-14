@@ -1,6 +1,3 @@
-// javac --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls *.java
-// java --module-path /usr/share/openjfx/lib/ --add-modules javafx.controls Executable
-
 import java.util.ArrayList;
 
 public class GestionJeu {
@@ -19,121 +16,140 @@ public class GestionJeu {
     private PlaneteLambda planete; // Bonus 
     private Niveau niveau; // Bonus 
     public GestionJeu() {
-        this.v = new Vaisseau(0);
-        
-        this.posX=(int)this.v.getPositionCanon();
+        /** Dans ce constructeur, j'instancie tout les élements qui me serviront */
 
-        this.s = new Score(0, this.getHauteur()-1);
+        this.v = new Vaisseau(0); // Création du Vaisseau en position en 0
         
-        this.listeA=new ArrayList<>();
+        this.posX=(int)this.v.getPositionCanon(); // Attribut instancié pour retenir la position du canon
+
+        this.s = new Score(0, this.getHauteur()-1); // Attribut du score instancié, placé en X et en Y ( en haut à gauche )
+        
+        this.listeA=new ArrayList<>(); // Création de la liste pour pour les aliens 
+        // Ajout des aliens sur trois lignes, le nombre d'aliens par lignes est géré en focntion de la larguer de la fenêtre
         for (double i=0.0; i<this.getLargeur()-50; i+=17.0) {
             this.listeA.add(new Alien(i, this.getHauteur()-10));
             this.listeA.add(new Alien(i, this.getHauteur()-17));
+            this.listeA.add(new Alien(i, this.getHauteur()-24));
         }
 
-        this.listeP = new ArrayList<Projectile>();
+        this.listeP = new ArrayList<Projectile>(); // Création de la liste pour retenir et afficher tout les projectiles lancés
 
-        this.listeProjectileToucheAlien =new ArrayList<>();
-        this.listeAlienTouche = new ArrayList<Alien>();
+        this.listeProjectileToucheAlien =new ArrayList<>(); // Création de la liste pour récupérer tout les projectiles qui ont touchés les aliens 
+
+        this.listeAlienTouche = new ArrayList<Alien>(); // Création de la liste pour récupérer tout les aliens touchés
 
         /* Bonus */
-        this.listeEtoile = new ArrayList<>();
+        this.listeEtoile = new ArrayList<>(); // Création de la liste pour afficher les étoiles en fond
+        // Ajout des étoiles en fond sur toute la page en espacant chaque lignes d'étoiles de 20 cases en Y en partant de Y=0
         for (double l=0.0; l<this.getHauteur(); l+=20.0) {
             for (double i=0.0; i<this.getLargeur(); i+=20.0) {
                 listeEtoile.add(new Etoile(i, l));
             }
         }
+        // Ajout des étoiles en fond sur toute la page en espacant chaque lignes d'étoiles de 20 cases en Y en partant de Y=10
         for (double l=10.0; l<this.getHauteur(); l+=20.0) {
             for (double i=10.0; i<this.getLargeur(); i+=20.0) {
                 listeEtoile.add(new Etoile(i, l));
             }
         }
-        this.a = new Amorce(this.getLargeur(), this.getHauteur()/2);
-        this.asteroide = new ArrayList<>();
+        this.a = new Amorce(this.getLargeur(), this.getHauteur()/2); // Création d'une amorce qui permet d'afficher un message de début de jeu
+
+        this.asteroide = new ArrayList<>(); // Création de la liste pour afficher les astéroides qui passeront en fond pendant le jeu
+        // Ajout de 3 astéroides avec des positions X et Y plus ou moins loin en fonction du moment où je veux qu'il passent 
         this.asteroide.add(new Asteroide(80.0, -50.0));
         this.asteroide.add(new Asteroide(30.0, -150.0));
         this.asteroide.add(new Asteroide(50.0, -450.0));
-        this.planete = new PlaneteLambda(-20.0, -30.0);
-        this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1);
+
+        this.planete = new PlaneteLambda(-20.0, -30.0); // Création d'une planète qui a des propriété différentes d'un astéroide 
+
+        this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1); // Création de l'affichage du niveau actuel dans lequel l'utilisateur se trouve ( en haut à droite )
         /* Fin bonus */
     }
     public int getHauteur() {
+        /** Renvoie la hauteur actuelle de la fenêtre */
         return 60;
     }
     public int getLargeur() {
+        /** Renvoie la largeur actuelle de la fenêtre */
         return 100;
     }
     public void toucheDroite() {
-        if (this.v.getX()+17<this.getLargeur()) {
+        /** Déplace le vaisseau à droite si l'utilisateur appuie sur la flèche droite de son clavier */
+        if (this.v.getX()+17<this.getLargeur()) { // Vérifie que le déplacement à droite ne dépasse pas de la largeur de la fenêtre 
             this.posX+=1;
             this.v.deplace(1);
         }
     }
     public void toucheGauche() {
-        if (this.v.getX()>0) {
+        /** Déplace le vaisseau à gauche si l'utilisateur appuie sur la flèche gauche de son clavier */
+        if (this.v.getX()>0) { // Vérifie que le déplacement à gauche ne dépasse pas de la largeur de la fenêtre 
             this.posX-=1;
             this.v.deplace(-1);
         }
     }
     public void toucheEspace() {
+        /** Envoie un projectile si l'utilisateur appuie sur la barre espace de son clavier */
         Projectile p=new Projectile(this.posX, 6.0);
-        listeP.add(p);
+        listeP.add(p); // ajoute le projectile dans la liste de projectile
     }
     public EnsembleChaines getChaines() {
+        /** Créer les ensembles de chaines à afficher pour chaque attributs et renvoie l'ensemble de chaine de toute la fenêtre */
         EnsembleChaines e = new EnsembleChaines();
-        for (Projectile p: this.listeP) {
+        for (Projectile p: this.listeP) { 
+            // Pour chaque projectiles lancés ( qui sont donc dans la liste ), nous affichons sa chaine représentative en la liant avec l'ensemble de chaine de toute la fenêtre
             e.union(p.getEnsembleChaines());
         }
         for (Alien a: this.listeA) {
+            // Pour chaque aliens instanciés dans le constructeur, nous affichons sa chaine représentative en la liant avec l'ensemble de chaine de toute la fenêtre
             e.union(a.getEnsembleChaines());
         }
-        e.union(this.v.getEnsembleChaines());
-        e.union(this.s.getEnsembleChaines());
-        e.union(this.niveau.getEnsembleChaines());
+        e.union(this.v.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du vaisseau 
+        e.union(this.s.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du score
+        e.union(this.niveau.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du niveau 
 
         /* Bonus */
         for (Etoile etoile: this.listeEtoile) {
+            // Pour chaque étoiles instanciées dans le constructeur, nous affichons sa chaine représentative en la liant avec l'ensemble de chaine de toute la fenêtre
             e.union(etoile.getEnsembleChaines());
         }
         for (Asteroide asteroide: this.asteroide) {
+            // Pour chaque asteroides instanciés dans le constructeur, nous affichons sa chaine représentative en la liant avec l'ensemble de chaine de toute la fenêtre
             e.union(asteroide.getEnsembleChaines());
         }
-        e.union(this.a.getEnsembleChaines());
-        e.union(this.planete.getEnsembleChaines());
+        e.union(this.a.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de l'amorce ( texte )
+        e.union(this.planete.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de la planète 
         /* Fin bonus */
         return e;
     }
     public void jouerUnTour() {
+        /** A chaque tours de jeu, nous appelons les méthodes dont nous avons beoin pour chaque attributs */
         for (Alien a: this.listeA) {
+            // Pour chaque aliens affichés, le déplacement change en fonction du niveau  
             double pasX=0.0;
-            if (this.niveau.getNiveau()==1) {
-                pasX=0.1;
+            if (this.niveau.getNiveau()==1) { // Vérifie si le niveau est à 1
+                pasX=0.1; // Indique la vitesse de déplacement des aliens si le niveau est à 1
             }
-            else if (this.niveau.getNiveau()==2) {
-                pasX=0.2;
+            else if (this.niveau.getNiveau()==2) { // Vérifie si le niveau est à 2
+                pasX=0.2; // Indique la vitesse de déplacement des aliens si le niveau est à 2
             }
-            else if (this.niveau.getNiveau()==3) {
-                pasX=0.4;
+            else if (this.niveau.getNiveau()==3) { // Vérifie si le niveau est à 1
+                pasX=0.4; // Indique la vitesse de déplacement des aliens si le niveau est à 3
             }
-            else if (this.niveau.getNiveau()==4) {
-                pasX=0.8;
-            }
-            a.evolue(pasX);
-            if (this.s.getScore()%10==0) { 
-                // regarde si le score est un multiple de 10
-                // si c'est le cas, on change le dessin de l'alien 
+            a.evolue(pasX); // Appelle la méthode évolue pour chaque alien en fonction du déplacements
+
+            if (this.s.getScore()%10==0) { // Pour chaque pas de 10 du score, le dessin des aliens changent, ce qui créer un effet de mouvement des aliens dans le déplacement
                 a.changeDessin();
             }
-            this.testTouche();
-            if (a.getEstTouche()==true) {
-                this.listeP.remove(p);
-                this.listeA.remove(a);
+            this.testTouche(); // Apelle la méthode testTouche qui regarde si l'alien actuel est touché par un projectile
+            if (a.getEstTouche()==true) { // Vérifie l'état du booléen dans la classe Alien qui permet de savoir si l'Alien est touché 
+                this.listeA.remove(a); // Supprime l'alien de la fenêtre si il est touché
             }
         }
         for (Projectile p: this.listeP) {
+            // Pour chaque projectiles lancés, nous le faisons évoluer ( monte en Y d'une certaine vitesse )
             p.evolue();
         }
-        this.s.ajoute(1);
+        this.s.ajoute(1); // Incrémente le score e 1 à chaque tour
 
         /* Bonus */
         if (this.listeA.isEmpty()==true) {
@@ -160,6 +176,7 @@ public class GestionJeu {
                 if (a.contient((int)p.getPosX(), (int)p.getPosY())) {
                     this.listeProjectileToucheAlien.add(p);
                     this.listeAlienTouche.add(a);
+                    this.listeP.remove(p);
                     a.estTouche();
                 }
             }
@@ -184,6 +201,7 @@ public class GestionJeu {
         for (double i=0.0; i<this.getLargeur()-50; i+=17.0) {
             this.listeA.add(new Alien(i, this.getHauteur()-10));
             this.listeA.add(new Alien(i, this.getHauteur()-17));
+            this.listeA.add(new Alien(i, this.getHauteur()-24));
         }
     }
 }

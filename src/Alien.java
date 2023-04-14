@@ -75,24 +75,6 @@ public class Alien {
             }
             this.cpt+=1;
         }
-        if (pasX==0.8) {
-            if (this.cpt < 72) {
-                this.posX+=pasX;
-            }
-            else if (this.cpt==72) {
-                this.posY-=1;
-            }
-            else if (this.cpt < 125) {
-                this.posX-=pasX;
-            }
-            else if (this.cpt==125) {
-                this.posY-=1;
-            }
-            else {
-                this.cpt=0;
-            }
-            this.cpt+=1;
-        }
         
     }
     public EnsembleChaines getEnsembleChaines() {
