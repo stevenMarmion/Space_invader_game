@@ -152,28 +152,32 @@ public class GestionJeu {
         this.s.ajoute(1); // Incrémente le score e 1 à chaque tour
 
         /* Bonus */
-        if (this.listeA.isEmpty()==true) {
-            this.remetDesAliens();
+        if (this.listeA.isEmpty()==true) { // On regarde si la liste est vide 
+            this.remetDesAliens(); // Si c'est le cas on remet des aliens en jeu en incrémentant d'un niveau
             this.niveau.ajouteNiveau(1);
         }
         for (Etoile etoile: this.listeEtoile) {
+            // Pour chaque étoiles, nous la faisons évoluer ( monte en Y d'une certaine vitesse )
             etoile.evolue();
-            if (etoile.getY()>=this.getHauteur()) {
+            if (etoile.getY()>=this.getHauteur()) { // Si l'étoile atteint le sommet de la fenêtre nous la faisons remettre en bas de la fenêtre 
                 etoile.remetXZero();
             }
         }
         for (Asteroide asteroide: this.asteroide) {
+            // Pour chaque astéroide, nous le faisons évoluer ( monte en Y et en X d'une certaine vitesse )
             asteroide.evolue();
         }
-        this.a.evolue();
-        this.planete.evolue();
+        this.a.evolue(); // Fait évoluer le message d'amorce en X
+        this.planete.evolue(); // fait évoluer la planete ne X et en Y 
         /* Fin bonus */
 
     }
     public void testTouche() {
+        /** Pour chaque projectiles et chaque aliens, nous regardons si l'alien est touché par un des projectiles de la fenêtre */
         for (Projectile p: this.listeP) {
             for (Alien a: this.listeA) {
-                if (a.contient((int)p.getPosX(), (int)p.getPosY())) {
+                if (a.contient((int)p.getPosX(), (int)p.getPosY())) { 
+                    // Si l'alien est touché, nous ajoutons dans une liste le projectile et l'alien et nous suprimmons l'alien et le projectile de la fenêtre
                     this.listeProjectileToucheAlien.add(p);
                     this.listeAlienTouche.add(a);
                     this.listeP.remove(p);
@@ -182,12 +186,14 @@ public class GestionJeu {
             }
         }
         for (Alien alien: this.listeA) {
+            /** Si un des aliens touchent le vaisseau ou dépassent le bas de la fenêtre, la partie est terminée */
             if (alien.contient((int)this.v.getX(), 0) || alien.getY()<=0) {
                 this.perdu();
             }
         }
     }
     public void perdu() {
+        /** supprime tout les élements et mets fin à la partie */
         this.listeP.clear();
         this.listeA.clear();
         this.listeProjectileToucheAlien.clear();
