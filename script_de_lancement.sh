@@ -12,3 +12,4 @@ else
   echo "La compilation a échoué, regardez les messages d'erreurs ce-dessus"
   # On implique que les messages d'erreurs de compilation java ce sont affcihés au dessus
 fi
+
