@@ -10,7 +10,7 @@ public class Score {
         // la position X,Y indique le coin en bas à gauche de l'affichage du nscore
     }
     public void ajoute(int i) { // Incrémente de 1 le score
-        this.score+=1;
+        this.score+=i;
     }
     public int getScore() { // retourne la valeur actuelle du score
         return this.score;

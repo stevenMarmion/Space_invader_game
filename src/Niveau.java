@@ -16,6 +16,9 @@ public class Niveau {
     public int getNiveau() { // retourne la valeur actuelle du niveau 
         return this.niveau;
     }
+    public void resetNiveau() {
+        this.niveau=1;
+    }
     public EnsembleChaines getEnsembleChaines() {
         /** Renvoie le message à afficher */
         EnsembleChaines ec= new EnsembleChaines();

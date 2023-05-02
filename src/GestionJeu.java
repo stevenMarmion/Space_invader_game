@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class GestionJeu {
     private int posX;
     private Vaisseau v;
-    private Projectile p;
     private Score s;
     private ArrayList<Alien> listeA;
     private ArrayList<Projectile> listeP;
@@ -15,6 +14,8 @@ public class GestionJeu {
     private ArrayList<Asteroide> asteroide; // Bonus
     private PlaneteLambda planete; // Bonus 
     private Niveau niveau; // Bonus 
+    private Attente attente; // Bonus
+    private Fin fin;
     public GestionJeu() {
         /** Dans ce constructeur, j'instancie tout les élements qui me serviront */
 
@@ -63,6 +64,8 @@ public class GestionJeu {
         this.planete = new PlaneteLambda(-20.0, -30.0); // Création d'une planète qui a des propriété différentes d'un astéroide 
 
         this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1); // Création de l'affichage du niveau actuel dans lequel l'utilisateur se trouve ( en haut à droite )
+        this.fin = new Fin((this.getLargeur()/2)-15, (this.getHauteur()/2)-4); // Création du message de fin
+        this.attente = new Attente((this.getLargeur()/2)-15, getHauteur()-1); // Création du message d'attente
         /* Fin bonus */
     }
     public int getHauteur() {
@@ -118,6 +121,11 @@ public class GestionJeu {
         }
         e.union(this.a.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de l'amorce ( texte )
         e.union(this.planete.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de la planète 
+        if (this.niveau.getNiveau()>3) { // Nous regardons si le jeu est au niveau 3 ou non
+            // Bonus 
+            e.union(this.fin.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du texte de fin 
+            e.union(this.attente.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de l'attente du relancement du jeu
+        }
         /* Fin bonus */
         return e;
     }
@@ -149,7 +157,15 @@ public class GestionJeu {
             // Pour chaque projectiles lancés, nous le faisons évoluer ( monte en Y d'une certaine vitesse )
             p.evolue();
         }
-        this.s.ajoute(1); // Incrémente le score e 1 à chaque tour
+        if (this.niveau.getNiveau()<4) { // nous regardons si le niveau du jeu est toujours inférieur à 4 
+            this.s.ajoute(1); // Incrémente le score de 1 à chaque tour
+        } 
+        else {
+            this.attente.decremente(1);// dans le cas contraire, le jeu est finit, on décremente l'attente de la relance
+            if (this.attente.getAttente()<=0) { // si l'attente est à 0
+                this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
+            }
+        }
 
         /* Bonus */
         if (this.listeA.isEmpty()==true) { // On regarde si la liste est vide 
