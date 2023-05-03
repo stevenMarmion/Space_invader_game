@@ -156,6 +156,9 @@ public class GestionJeu {
         for (Projectile p: this.listeP) {
             // Pour chaque projectiles lancés, nous le faisons évoluer ( monte en Y d'une certaine vitesse )
             p.evolue();
+            if (p.getPosY()>=this.getHauteur()) { // Pour tout les projectiles, si ils sortent de la fenêtre, nous les supprimons
+                this.listeP.remove(p);
+            }
         }
         if (this.niveau.getNiveau()<4) { // nous regardons si le niveau du jeu est toujours inférieur à 4 
             this.s.ajoute(1); // Incrémente le score de 1 à chaque tour
