@@ -17,6 +17,9 @@ public class Projectile {
         // indique la valeur d'évolution du projectile ( fait avancer l'étoile en Y de 0.2 case ) 
         this.positionY+=0.2;
     }
+    public void evolueAlien() {
+        this.positionY-=0.3;
+    }
     public double getPosX() { // retourne la position X du projectile
         return this.positionX;
     }

@@ -29,4 +29,7 @@ public class Niveau {
     public String toString() { // renvoie la chaine de caractères "Niveau :" et sa valeur actuelle
         return "Niveau : "+ this.getNiveau();
     }
+    public void setNiveau(int i) {
+        this.niveau=i;
+    }
 }

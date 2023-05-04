@@ -15,7 +15,9 @@ public class GestionJeu {
     private PlaneteLambda planete; // Bonus 
     private Niveau niveau; // Bonus 
     private Attente attente; // Bonus
-    private Fin fin;
+    private FinGagnante fingGagnante; // Bonus
+    private ArrayList<Projectile> listePAlien; // Bonus
+    private boolean aPerdu; // Bonus
     public GestionJeu() {
         /** Dans ce constructeur, j'instancie tout les élements qui me serviront */
 
@@ -64,8 +66,10 @@ public class GestionJeu {
         this.planete = new PlaneteLambda(-20.0, -30.0); // Création d'une planète qui a des propriété différentes d'un astéroide 
 
         this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1); // Création de l'affichage du niveau actuel dans lequel l'utilisateur se trouve ( en haut à droite )
-        this.fin = new Fin((this.getLargeur()/2)-15, (this.getHauteur()/2)-4); // Création du message de fin
+        this.fingGagnante = new FinGagnante((this.getLargeur()/2)-15, (this.getHauteur()/2)-4); // Création du message de fin si le joueur gagne
+        this.aPerdu = false; // Permet de vérifier si le joueur a gagné ou non
         this.attente = new Attente((this.getLargeur()/2)-15, getHauteur()-1); // Création du message d'attente
+        this.listePAlien = new ArrayList<>();
         /* Fin bonus */
     }
     public int getHauteur() {
@@ -123,8 +127,11 @@ public class GestionJeu {
         e.union(this.planete.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de la planète 
         if (this.niveau.getNiveau()>3) { // Nous regardons si le jeu est au niveau 3 ou non
             // Bonus 
-            e.union(this.fin.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du texte de fin 
+            e.union(this.fingGagnante.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative du texte de fin 
             e.union(this.attente.getEnsembleChaines()); // Nous lions à la fenêtre ouverte la chaine représentative de l'attente du relancement du jeu
+        }
+        for (Projectile pAlien: this.listePAlien) {
+            e.union(pAlien.getEnsembleChaines());
         }
         /* Fin bonus */
         return e;
@@ -188,7 +195,24 @@ public class GestionJeu {
             asteroide.evolue();
         }
         this.a.evolue(); // Fait évoluer le message d'amorce en X
-        this.planete.evolue(); // fait évoluer la planete ne X et en Y 
+        this.planete.evolue(); // fait évoluer la planete ne X et en Y
+        
+        if (this.s.getScore()%100==0) { 
+            int alienHasard = (int) (Math.random() * this.listeA.size()-1); 
+            for (int i=0; i<this.listeA.size(); ++i) {
+                if (i==alienHasard) {
+                    this.listePAlien.add(new Projectile(this.listeA.get(i).getX()+8.0, this.listeA.get(i).getY()-7));
+                }
+            }
+        }
+        for (Projectile pAlien: this.listePAlien) {
+            pAlien.evolueAlien();
+        }
+        if (this.aPerdu) {
+            this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
+            this.s.resetScore();
+            this.aPerdu=false;
+        }
         /* Fin bonus */
 
     }
@@ -211,6 +235,14 @@ public class GestionJeu {
                 this.perdu();
             }
         }
+        for (Projectile pAlien: this.listePAlien) {
+            if (this.v.contient((int)pAlien.getPosX(), (int)pAlien.getPosY())) { 
+                // Si l'alien est touché, nous ajoutons dans une liste le projectile et l'alien et nous suprimmons l'alien et le projectile de la fenêtre
+                this.listePAlien.remove(pAlien);
+                this.aPerdu=true;
+                this.perdu();
+            }
+        }
     }
     public void perdu() {
         /** supprime tout les élements et mets fin à la partie */
@@ -218,9 +250,6 @@ public class GestionJeu {
         this.listeA.clear();
         this.listeProjectileToucheAlien.clear();
         this.listeAlienTouche.clear();
-        this.listeEtoile.clear(); 
-        this.asteroide.clear();
-        this.planete=null;
     }
     public void remetDesAliens() {
         /** Si tout les aliens de la première vague sont morts, on en envoie une deuxième. Ce qui implique l'on doit en remettre sur la map **/

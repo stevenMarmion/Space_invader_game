@@ -28,4 +28,12 @@ public class Vaisseau {
         /** retourne la position X du vaisseau ( renvoie la valeur tout à gauche du dessin ) */
         return this.posX;
     }
+    public boolean contient(int posx, int posy){
+        /** renvoie true ou false en fonction des paramètres de la fonction */
+        if (posx >= this.posX && posx <= this.posX+17 && posy >= 0 && posy <= 5) {
+            // Vérifie si les paramètres de la fonction ( les positions X et Y ) sont contenues dans les superficie prise par le vaisseau dans la fenêtre
+            return true;
+        }
+        return false;
+    }
 }
