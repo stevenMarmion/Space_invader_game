@@ -167,6 +167,7 @@ public class GestionJeu {
             this.attente.decremente(1);// dans le cas contraire, le jeu est finit, on décremente l'attente de la relance
             if (this.attente.getAttente()<=0) { // si l'attente est à 0
                 this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
+                this.s.resetScore();
             }
         }
 

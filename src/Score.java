@@ -25,4 +25,7 @@ public class Score {
     public String toString() { // renvoie la chaine de caractères "Score :" et sa valeur actuelle
         return "Score : "+ this.getScore();
     }
+    public void resetScore() {
+        this.score=0;
+    }
 }

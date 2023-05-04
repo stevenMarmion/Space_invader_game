@@ -6,7 +6,7 @@ public class Attente {
         /** Dans ce constructeur, j'instancie tout les élements qui me serviront */
         this.x=x; // la position X de l'attente à afficher
         this.y=y; // la position Y de l'attente à afficher
-        this.attente=500; // la valeur actuelle de l'attente
+        this.attente=300; // la valeur actuelle de l'attente
         // la position X,Y indique le coin en bas à gauche de l'affichage de l'attente
     }
     public void decremente(int i) { // Décrémente de i l'attente
