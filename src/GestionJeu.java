@@ -63,7 +63,7 @@ public class GestionJeu {
         this.asteroide.add(new Asteroide(30.0, -150.0));
         this.asteroide.add(new Asteroide(50.0, -450.0));
 
-        this.planete = new PlaneteLambda(-20.0, -30.0); // Création d'une planète qui a des propriété différentes d'un astéroide 
+        this.planete = new PlaneteLambda(-50.0, -50.0); // Création d'une planète qui a des propriété différentes d'un astéroide 
 
         this.niveau = new Niveau(this.getLargeur()-11, this.getHauteur()-1); // Création de l'affichage du niveau actuel dans lequel l'utilisateur se trouve ( en haut à droite )
         this.fingGagnante = new FinGagnante((this.getLargeur()/2)-15, (this.getHauteur()/2)-4); // Création du message de fin si le joueur gagne
@@ -171,7 +171,7 @@ public class GestionJeu {
             this.s.ajoute(1); // Incrémente le score de 1 à chaque tour
         } 
         else {
-            this.attente.decremente(1);// dans le cas contraire, le jeu est finit, on décremente l'attente de la relance
+            this.attente.decremente(1);// dans le cas contraire, le jeu est finit et le joueur a gagné, on décremente l'attente de la relance
             if (this.attente.getAttente()<=0) { // si l'attente est à 0
                 this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
                 this.s.resetScore();

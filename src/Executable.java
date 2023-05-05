@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -14,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.util.Duration;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-
 
 
 public class Executable extends Application {
@@ -34,6 +34,7 @@ public class Executable extends Application {
         {
             Text t = new Text (c.x*largeurCaractere,hauteur - c.y*hauteurTexte, c.c);
             t.setFont(Font.font ("Monospaced", 10));
+            t.setFill(Color.WHITE); // Bonus, ajout de tout les textes en LIGHTBLUE
             caracteres.getChildren().add(t);
         }
     }
@@ -74,6 +75,7 @@ public class Executable extends Application {
                 if(key.getCode()==KeyCode.SPACE)
                     gestionnaire.toucheEspace();
             });
+            scene.setFill(Color.DARKSLATEBLUE); // Bonus, mettre le fond de la scene en BLUEVIOLET
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();
