@@ -215,6 +215,7 @@ public class GestionJeu {
         if (this.aPerdu) {
             this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
             this.s.resetScore();
+            System.out.println("Perdu !!");
             this.aPerdu=false;
         }
         if (this.aPerdu==false && this.niveau.getNiveau()>3) { // Dans le cas où le joueur a gagné, il ne peut plus tirer et tout les projectiles restants sont effacer
