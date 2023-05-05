@@ -207,11 +207,19 @@ public class GestionJeu {
         }
         for (Projectile pAlien: this.listePAlien) {
             pAlien.evolueAlien();
+            if (pAlien.getPosY()<0) { // Pour tout les projectiles, si ils sortent de la fenêtre, nous les supprimons
+                this.listeP.remove(pAlien);
+            }
         }
         if (this.aPerdu) {
             this.niveau.resetNiveau(); // on remet à 1 le niveau et le jeu recommence
             this.s.resetScore();
             this.aPerdu=false;
+        }
+        if (this.aPerdu==false && this.niveau.getNiveau()>3) { // Dans le cas où le joueur a gagné, il ne peut plus tirer et tout les projectiles restants sont effacer
+            for (Projectile p: this.listeP) {
+                this.listeP.remove(p);
+            }
         }
         /* Fin bonus */
 
