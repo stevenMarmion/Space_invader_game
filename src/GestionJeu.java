@@ -197,7 +197,8 @@ public class GestionJeu {
         this.a.evolue(); // Fait évoluer le message d'amorce en X
         this.planete.evolue(); // fait évoluer la planete ne X et en Y
         
-        if (this.s.getScore()%100==0) { 
+        if (this.s.getScore()%100==0) {  
+            // Tout les 100 points au score, nous prenons un alien au hasard dans ceux encore vivant et nous lui faisons tirer un projectile qui peut nous tuer ( vaisseau )
             int alienHasard = (int) (Math.random() * this.listeA.size()-1); 
             for (int i=0; i<this.listeA.size(); ++i) {
                 if (i==alienHasard) {
